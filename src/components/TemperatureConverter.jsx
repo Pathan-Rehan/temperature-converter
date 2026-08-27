@@ -42,7 +42,7 @@ export default function TemperatureConverter() {
 
           <input
                type="number"
-               placeholder="Enter temperature"
+               placeholder="Enter Temperature"
                value={temperature}
                onChange={(e) => setTemperature(e.target.value)}
           />
