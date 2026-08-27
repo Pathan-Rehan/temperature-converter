@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { convertTemperature } from '../services/api.js'
 
 export default function TemperatureConverter() {
 
@@ -9,6 +9,33 @@ export default function TemperatureConverter() {
      const [loading, setLoading] = useState(false);
      const [result, setResult] = useState('');
      const [error, setError] = useState('');
+
+
+     const handleConvert = async () => {
+          setResult('');
+          setError('');
+          if (temperature === '') {
+               setError('Please enter a temperature');
+               return;
+          }
+
+          if (isNaN(temperature)) {
+               setError('Please enter a valid temperature');
+               return;
+          }
+
+          setLoading(true);
+
+          try {
+               const data = await convertTemperature(temperature, fromUnit, toUnit);
+
+               setResult(`${data.result} °${data.unit}`);
+          } catch (error) {
+               setError(error.message || 'Unable to connect to the backend');
+          } finally {
+               setLoading(false);
+          }
+     };
 
      return <div className="converter">
           <h1 >Temperature Converter</h1>
@@ -36,7 +63,9 @@ export default function TemperatureConverter() {
                <option value="K">Kelvin</option>
           </select>
 
-          <button>Convert</button>
+          <button onClick={handleConvert}
+
+          >{loading ? 'Converting' : 'Convert'}</button>
 
           <div className="result">
                <p>{result || 'Result will appear here'}</p>          </div>
