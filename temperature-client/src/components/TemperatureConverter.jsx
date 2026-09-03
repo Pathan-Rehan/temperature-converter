@@ -27,7 +27,7 @@ export default function TemperatureConverter() {
           setLoading(true);
 
           try {
-               const data = await convertTemperature(temperature, fromUnit, toUnit);
+               const data = await convertTemperature( Number(temperature), fromUnit, toUnit);
 
                setResult(`${data.result} °${data.unit}`);
           } catch (error) {
